@@ -89,9 +89,8 @@ class DisjointSet{
 };
 class someclass{
     public:
-    ll u,v,weight; 
-    inline static bool customcomp(const someclass& obj1,const someclass& obj2){ //custom comparator,pass 2 objects of the someclass
-        return obj1.weight<obj2.weight; //use strict ()> or <) instead of (>=,<=) while writing custom comparator code
+    inline static bool customcomp(vector<ll>&obj1, vector<ll>&obj2){ //custom comparator,pass 2 objects of the someclass
+        return obj1[2]<obj2[2]; //use strict ()> or <) instead of (>=,<=) while writing custom comparator code
         //the custom compartor must always return false-when comparing 2 equal guys
     }
 };
@@ -99,24 +98,23 @@ int main(){
     cin.tie(nullptr); cout.tie(nullptr); ios::sync_with_stdio(false);
     ll n,m; cin>>n>>m;
     DisjointSet dsu(n);
-    vector<someclass>me(m); //vector of that someclass
+    vector<vector<ll>>me(m,vector<ll>(3)); 
     for(int i=0;i<m;i++){
-        cin>>me[i].u>>me[i].v>>me[i].weight;
+        cin>>me[i][0]>>me[i][1]>>me[i][2];
     }
     sort(me.begin(),me.end(),someclass::customcomp);
-    vector<someclass>ans; ll mst_sum=0;
+    vector<vector<ll>>ans; ll mst_sum=0;
     for(int i=0;i<m;i++){
         if(ans.size()==n-1){
             break;
         }
-        if(dsu.samecompo(me[i].u,me[i].v)){
-            dsu.unionfunc(me[i].u,me[i].v); //can also ignore calling unionfunc here as with same ultimate parents-unionfunc does nothing
+        if(dsu.samecompo(me[i][0],me[i][1])){
+            dsu.unionfunc(me[i][0],me[i][1]); //can also ignore calling unionfunc here as with same ultimate parents-unionfunc does nothing
             continue;
         }
-        dsu.unionfunc(me[i].u,me[i].v);
+        dsu.unionfunc(me[i][0],me[i][1]);
         mst_sum+=me[i].weight;
-        someclass obj; obj.u=me[i].u; obj.v=me[i].v; obj.weight=me[i].weight;
-        ans.push_back(obj);
+        ans.push_back({me[i][0],me[i][1],me[i][2]});
     }
     if(dsu.distinct_compo()>1){cout<<-1;}
 }  
