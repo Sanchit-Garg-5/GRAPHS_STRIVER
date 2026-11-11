@@ -89,7 +89,7 @@ class DisjointSet{
 };
 class someclass{
     public:
-    inline static bool customcomp(vector<ll>&obj1, vector<ll>&obj2){ //custom comparator,pass 2 objects of the someclass
+    inline static bool customcomp(const vector<ll>&obj1,const vector<ll>&obj2){ //custom comparator,pass 2 objects of the someclass
         return obj1[2]<obj2[2]; //use strict ()> or <) instead of (>=,<=) while writing custom comparator code
         //the custom compartor must always return false-when comparing 2 equal guys
     }
@@ -113,7 +113,7 @@ int main(){
             continue;
         }
         dsu.unionfunc(me[i][0],me[i][1]);
-        mst_sum+=me[i].weight;
+        mst_sum+=me[i][2];
         ans.push_back({me[i][0],me[i][1],me[i][2]});
     }
     if(dsu.distinct_compo()>1){cout<<-1;}
